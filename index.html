@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#05080B">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Les Ondes Sonores</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Figtree:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-theme="home">
+
+<section class="screen active" id="screen-home">
+  <h1 class="app-title">Les Ondes Sonores</h1>
+  <p class="app-subtitle">Apprends à comprendre le comportement du son dans notre univers.</p>
+  <div class="mode-caption">La propagation du son</div>
+  <div class="mode-list">
+    <button class="mode-btn" id="go-prop" aria-label="Découvrir la propagation du son"><span class="mode-btn__title">Découvrir la propagation du son</span><span class="mode-btn__subtitle">Fais éclater un pétard et chronomètre l'arrivée du son.</span></button>
+    <button class="mode-btn mode-btn--soon" disabled aria-disabled="true"><span class="mode-btn__title">Prochainement</span><span class="mode-btn__subtitle">Disponible prochainement</span></button>
+  </div>
+</section>
+
+<section class="screen screen--wide screen--yellow" id="screen-prop">
+  <button class="btn-back" data-go="screen-home" aria-label="Retour au menu">← Retour</button>
+  <h2 class="app-title app-title--small">La propagation du son</h2>
+  <p class="app-subtitle" style="margin-bottom:14px">Règle la distance et le milieu, puis déclenche le pétard.</p>
+  <div id="lab-free"></div>
+  <div class="mode-list" id="calc-wrap" style="margin-top:16px"><button class="mode-btn mode-btn--amber" id="go-calc" aria-label="Calculer la vitesse du son"><span class="mode-btn__title">Calculer la vitesse du son</span><span class="mode-btn__subtitle">Même expérience, guidée pas à pas.</span></button></div>
+</section>
+
+<section class="screen screen--wide screen--amber" id="screen-calc">
+  <button class="btn-back" data-go="screen-prop" aria-label="Retour au bac à sable">← Retour</button>
+  <h2 class="app-title app-title--small">Calculer la vitesse du son</h2>
+  <div class="exp-progress" id="g-prog"></div>
+  <p class="exp-instruction" id="g-instr"></p>
+  <div id="lab-guided"></div>
+  <div class="ex-actions" id="g-s1"><button class="btn-primary" id="g-next1" disabled>Suivant</button></div>
+  <div class="card pop" id="g-s3" style="margin-top:12px">
+    <p class="panel-text">Pour connaître la vitesse de l'onde sonore, on utilise la formule de la vitesse <b>v = d / t</b></p>
+    <p class="small">Complète la fraction avec la distance et le temps mesurés.</p>
+    <div class="eqn">v =<span class="frac"><input class="field" id="f-d" inputmode="decimal" autocomplete="off" aria-label="Distance"><hr><input class="field" id="f-t" inputmode="decimal" autocomplete="off" aria-label="Temps"></span></div>
+    <div class="ex-feedback" id="f-hint" style="min-height:1.6em"></div>
+    <div class="ex-actions" style="margin-top:4px"><button class="btn-primary" id="f-go" disabled>Calculer</button></div>
+  </div>
+  <div class="card pop" id="g-space" style="margin-top:12px">
+    <p class="result">Pas de matière, pas de son : il n'y a donc aucune vitesse à calculer ici.</p>
+    <div class="ex-actions"><button class="btn-primary" id="sp-other">Essayer un autre milieu de propagation</button></div>
+  </div>
+  <div class="card pop" id="g-s4" style="margin-top:12px">
+    <p class="result" id="g-res"></p><p class="small" id="g-calc"></p>
+    <table id="g-table"></table>
+    <div class="ex-actions"><button class="btn-primary" id="g-retry"></button><button class="btn-secondary" id="g-other">Essayer un autre milieu de propagation</button><button class="btn-secondary" id="g-retain">À retenir</button></div>
+  </div>
+</section>
+
+<section class="screen screen--amber" id="screen-retain">
+  <button class="btn-back" data-go="screen-calc" aria-label="Retour">← Retour</button>
+  <h2 class="app-title app-title--small">À retenir</h2>
+  <div class="card pop" style="padding:24px 16px">
+    <p class="key">Le son est une onde qui se propage de molécule en molécule</p>
+    <div class="cases"><div class="case">Il n'y a pas de matière dans l'espace, donc pas de son !</div>
+    <div class="case case--right">La vitesse de l'onde dépend de la nature de l'environnement traversé. En calculant, on peut trouver la vitesse du son dans l'air : 340&nbsp;m/s ou dans l'eau : 1&nbsp;500&nbsp;m/s.</div></div>
+  </div>
+  <div class="ex-actions"><button class="btn-primary" data-go="screen-home">Menu principal</button></div>
+</section>
+
+<script src="js/utils.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/sprites.js"></script>
+<script src="js/backgrounds.js"></script>
+<script src="js/lab.js"></script>
+<script src="js/guided.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
