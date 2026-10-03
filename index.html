@@ -18,8 +18,14 @@
   <div class="mode-caption">La propagation du son</div>
   <div class="mode-list">
     <button class="mode-btn" id="go-prop" aria-label="Découvrir la propagation du son"><span class="mode-btn__title">Découvrir la propagation du son</span><span class="mode-btn__subtitle">Fais éclater un pétard et chronomètre l'arrivée du son.</span></button>
-    <button class="mode-btn mode-btn--orange" id="go-measure" aria-label="Mesurer des distances"><span class="mode-btn__title">Mesurer des distances</span><span class="mode-btn__subtitle">Utiliser la propagation du son pour mesurer des distances.</span></button>
+    <button class="mode-btn mode-btn--gold" id="go-measure" aria-label="Mesurer des distances"><span class="mode-btn__title">Mesurer des distances</span><span class="mode-btn__subtitle">Utiliser la propagation du son pour mesurer des distances.</span></button>
   </div>
+  <div class="mode-caption" style="margin-top:30px">Fréquence et Intensité</div>
+  <div class="mode-list">
+    <button class="mode-btn mode-btn--orange" id="go-freq" aria-label="Découvre les caractéristiques d'un son"><span class="mode-btn__title">Découvre les caractéristiques d'un son</span><span class="mode-btn__subtitle">Fréquence, amplitude et niveau d'intensité sonore.</span></button>
+    <button class="mode-btn mode-btn--soon mode-btn--soon-o" disabled aria-disabled="true"><span class="mode-btn__title">La musique</span><span class="mode-btn__subtitle">Prochainement</span></button>
+  </div>
+
 </section>
 
 <section class="screen screen--wide screen--yellow" id="screen-prop">
@@ -55,7 +61,7 @@
   </div>
 </section>
 
-<section class="screen screen--wide screen--orange" id="screen-measure">
+<section class="screen screen--wide screen--gold" id="screen-measure">
   <button class="btn-back" data-go="screen-home" aria-label="Retour au menu">← Retour</button>
   <div class="title-row"><h2 class="app-title app-title--small">Mesurer des distances</h2>
     <label class="chk"><input type="checkbox" id="m-echo"><span class="chk__box" aria-hidden="true"></span>L'écho</label></div>
@@ -74,6 +80,30 @@
   </div>
 </section>
 
+<section class="screen screen--wide screen--orange" id="screen-freq">
+  <button class="btn-back" data-go="screen-home" aria-label="Retour au menu">← Retour</button>
+  <h2 class="app-title app-title--small">Les caractéristiques d'un son</h2>
+  <p class="app-subtitle" style="margin-bottom:14px;max-width:44ch">Teste les différents paramètres d'un son, sa fréquence, son amplitude et son niveau d'intensité sonore. Pour plus d'informations, chaque grandeur peut être détaillée, tu n'as qu'à cliquer sur les&nbsp;?</p>
+  <div class="rd-row">
+    <div class="card rd" id="fq-box"><div class="rd__head"><span>Fréquence</span><button class="qbtn" data-help="freq" aria-label="Explication : la fréquence">?</button></div><div class="rd__val" id="fq-val">440 Hz</div><div class="rd__tag" id="fq-tag"></div></div>
+    <div class="card rd rd--ok" id="db-box"><div class="rd__head"><span>Niveau d'intensité sonore</span><button class="qbtn" data-help="db" aria-label="Explication : le niveau d'intensité sonore">?</button></div><div class="rd__val" id="db-val">≈ 60 dB</div><div class="rd__tag" id="db-tag"></div></div>
+  </div>
+  <div class="card">
+    <div class="scene-row">
+      <canvas id="fq-scene" role="img" aria-label="Molécules d'air traversées par une onde sonore"></canvas>
+      <div class="vs-col"><div class="vs" id="amp-sl" role="slider" tabindex="0" aria-label="Amplitude" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="120" aria-valuenow="60"><div class="vs__track"><div class="vs__fill" id="amp-fill"></div></div><div class="vs__thumb" id="amp-thumb"></div></div><div class="vs-cap">Amplitude</div></div>
+    </div>
+    <div class="fq-ctl">
+      <input type="range" class="thin" id="fq-range" min="0" max="1000" aria-label="Fréquence">
+      <div class="fq-scale"><span style="left:8.7%">20 Hz</span><span style="left:94.9%;transform:translateX(-82%)">20 000 Hz</span></div>
+      <div class="fq-fine"><button class="btn-secondary btn-mini" id="fq-minus" aria-label="Fréquence moins">−</button><label class="fq-field"><input class="field" id="fq-input" inputmode="numeric" autocomplete="off" aria-label="Fréquence en hertz">Hz</label><button class="btn-secondary btn-mini" id="fq-plus" aria-label="Fréquence plus">+</button></div>
+    </div>
+  </div>
+  <div class="card graph-card"><div class="rd__head"><span>Graphique des molécules</span><button class="qbtn" data-help="graph" aria-label="Explication : le graphique">?</button></div><canvas id="fq-graph" role="img" aria-label="Graphique sinusoïdal"></canvas><p class="small" style="margin:6px 0 0">Nombre de vagues non réel : seule la tendance compte.</p></div>
+  <div class="ex-actions"><button class="btn-primary" id="fq-play">Pause</button><button class="btn-primary btn-primary--alt" id="fq-audio" aria-pressed="false">Écouter</button></div>
+  <div class="ex-feedback" id="fq-msg" aria-live="polite"></div>
+</section>
+
 <section class="screen screen--yellow" id="screen-retain">
   <button class="btn-back" data-go="screen-calc" aria-label="Retour">← Retour</button>
   <h2 class="app-title app-title--small">À retenir</h2>
@@ -85,13 +115,17 @@
   <div class="ex-actions"><button class="btn-primary" data-go="screen-home">Menu principal</button></div>
 </section>
 
+<div class="ov" id="modal" role="dialog" aria-modal="true" aria-labelledby="md-t"><div class="ov-panel screen--orange"><h3 id="md-t"></h3><div id="md-b"></div><div class="ex-actions" style="margin:6px 0 0"><button class="btn-primary" id="md-x">Compris</button></div></div></div>
+
 <script src="js/utils.js"></script>
 <script src="js/sound.js"></script>
+<script src="js/tone.js"></script>
 <script src="js/sprites.js"></script>
 <script src="js/backgrounds.js"></script>
 <script src="js/lab.js"></script>
 <script src="js/guided.js"></script>
 <script src="js/measure.js"></script>
+<script src="js/frequency.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

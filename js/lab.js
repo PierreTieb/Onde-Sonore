@@ -16,7 +16,7 @@ function createLab(host,o){
   function vl(){return st.hide?.5:lf()}
   function dtxt(){return st.hide?'?':fmtD(st.d)}
   function mult(){var M=MED[st.m];return(st.ral&&M.thr)?Math.max(1,M.thr/path()):1}
-  function place(){act.style.visibility=st.state==='run'?'hidden':'visible';act.style.left=Math.max(st.W*.13,64)+'px';act.style.top=(st.H*.66+10)+'px'}
+  function place(){act.style.visibility=st.state==='run'?'hidden':'visible';act.style.left=Math.max(st.W*(st.echo?.3:.13),64)+'px';act.style.top=(st.H*.66+10)+'px'}
   function sync(){st.dirty=true;
     q('.dst').textContent=dtxt();q('.dv').textContent=dtxt();rg.style.setProperty('--p',(rg.value/10)+'%');
     var M=MED[st.m],m1=M.thr&&st.d>=M.thr;
@@ -32,11 +32,12 @@ function createLab(host,o){
   function ci(x,y,r){c.beginPath();c.arc(x,y,r,0,6.283);c.fill()}
   function wallDraw(x1,W,H,m){c.fillStyle={air:'#5B6B84',water:'#17415E',rock:'#30293A'}[m]||'#444';c.fillRect(x1,H*.1,W-x1,H*.9);c.fillStyle='rgba(255,255,255,.2)';c.fillRect(x1,H*.1,3,H*.9);c.fillStyle='rgba(0,0,0,.22)';for(var y=H*.1+22;y<H;y+=26)c.fillRect(x1+3,y,W-x1,2)}
   function draw(now){
-    var W=st.W,H=st.H,m=st.m,x0=W*.13,x1=W*.87,cy=H*.66,l=vl(),sc=1.5-.9*l;
+    var W=st.W,H=st.H,m=st.m,ech=st.echo,x0=W*(ech?.3:.13),x1=W*.87,xc=ech?W*.13:x1,cy=H*.66,l=vl(),sc=1.5-.9*l;   // xc = centre du personnage (écho : placé avant le pétard)
     c.drawImage(bgc,0,0,W,H);
     if(m!=='space'){
       var cm={air:1,water:1.4,rock:1.8}[m],nb=Math.round((12+28*l)*cm),sp=(x1-x0)/nb,R={air:7,water:9,rock:10}[m],zt=H*.16,rh=H*.62/R,rad=({air:2.4,water:2.6,rock:2.8}[m])*(1.1-.35*l),N=NEU[m];
-      var fq=st.echo?(st.p<.5?2*st.p:2-2*st.p):st.p,front=x0+fq*(x1-x0),sig=Math.max((x1-x0)*.06,sp*2.2),lam=sig*1.5,A=Math.min(sp*.4,9),k=6.283/lam,mid=Math.round(nb/2),tr=Math.floor(R/2),tx=0,ty=0;
+      var L1=x1-x0,f=st.p*(L1+(ech?x1-xc:0)),front=(ech&&f>L1)?x1-(f-L1):x0+f,   // p=1 : l'onde est exactement au centre du personnage
+          sig=Math.max((x1-x0)*.06,sp*2.2),lam=sig*1.5,A=Math.min(sp*.4,9),k=6.283/lam,mid=Math.round(nb/2),tr=Math.floor(R/2),tx=0,ty=0;
       for(var j=0;j<R;j++){var y=zt+(j+.5)*rh;
         for(var i=Math.floor(-x0/sp);i<=(st.echo?Math.floor((x1-x0)/sp):Math.ceil((W-x0)/sp));i++){
           var xr=x0+i*sp,u=0,cp=0;
@@ -46,7 +47,7 @@ function createLab(host,o){
       var rx=x0+mid*sp;c.strokeStyle='rgba(255,255,255,.35)';c.lineWidth=1;c.setLineDash([3,4]);c.beginPath();c.moveTo(rx,zt);c.lineTo(rx,zt+R*rh);c.stroke();c.setLineDash([]);
       c.shadowColor='#fff';c.shadowBlur=14;c.fillStyle='#fff';c.beginPath();c.arc(tx,ty,rad*1.9,0,6.283);c.fill();c.shadowBlur=0}
     if(st.echo)wallDraw(x1,W,H,m);
-    if(st.state!=='run')Sprites.cracker(c,x0,cy,sc);Sprites.person(c,st.echo?x0+46*sc:x1,cy,sc,m);
+    if(st.state!=='run')Sprites.cracker(c,x0,cy,sc);Sprites.person(c,xc,cy,sc,m);
     var fl=now-st.flash;if(fl<350){var f=fl/350;c.fillStyle='rgba(255,220,120,'+(1-f)*.85+')';ci(x0+6*sc,cy-52*sc,16+60*f)}
     c.strokeStyle='rgba(255,255,255,.3)';c.lineWidth=1;c.setLineDash([4,5]);c.beginPath();c.moveTo(x0,H-16);c.lineTo(x1,H-16);c.stroke();c.setLineDash([]);
     c.fillStyle='rgba(0,0,0,.6)';c.fillRect(W/2-34,H-27,68,20);c.fillStyle='#E9EEF2';c.font='700 12px Figtree,sans-serif';c.textAlign='center';c.fillText(dtxt(),W/2,H-13);

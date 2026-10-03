@@ -120,3 +120,52 @@ html{touch-action:manipulation}
 /* Chrono : zone de largeur fixe pour que la pastille Distance ne bouge pas */
 .chr{display:inline-block;width:5.3em;text-align:left;font-variant-numeric:tabular-nums;white-space:nowrap}
 @media(max-width:400px){.chr{width:5.5em}}
+
+/* ---- Couleurs : bloc 1 en jaunes, bloc 2 en oranges ---- */
+body[data-theme=gold]{--bg-top:#0B0904;--bg-bottom:#171105;--glow:radial-gradient(ellipse 75% 100% at 50% 0%,rgba(255,200,40,.14),transparent)}
+.screen--gold{--acc-light:#FFE27A;--acc-mid:#F2BC1E;--acc-dark:#9A7208;--acc-text:#2A1F00;--acc-hi:#FFD84D}
+.mode-btn--gold{--c-light:#FFE17A;--c-mid:#FFD04A;--c-dark:#B38A10;--c-text:#3F3000}
+.mode-btn--soon-o{--c-light:#FFC48C;--c-mid:#FF9F5A;--c-dark:#B8682A;--c-text:#4A2200}
+
+/* ---- Mode 3 : fréquence et intensité ---- */
+.rd-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.rd{padding:10px 12px;border-radius:20px}
+.rd__head{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;font-weight:800;font-size:.78rem;line-height:1.2}
+.rd__val{font-family:var(--font-display);font-weight:600;font-size:1.45rem;margin-top:4px;transition:color .2s;white-space:nowrap}
+.rd__tag{font-size:.78rem;font-weight:700;color:var(--ink-soft);line-height:1.25;min-height:2.5em;margin-top:2px}
+#fq-val{color:#4DD6C8}
+.rd--ok .rd__val{color:#6FE3A0}.rd--warn .rd__val{color:#FFB347}.rd--danger .rd__val{color:#FF6B5E}.rd--pain .rd__val{color:#FF3B30}
+.rd--danger,.rd--pain{border-color:rgba(255,107,94,.7)}.rd--danger .rd__tag,.rd--pain .rd__tag{color:#FF8A80}
+.qbtn{position:relative;flex:none;width:26px;height:26px;border-radius:7px;border:none;background:#D5DADF;color:#6B7480;font-weight:800;font-size:.95rem;cursor:pointer;padding:0;line-height:26px}
+.qbtn::after{content:'';position:absolute;inset:-9px}
+.scene-row{display:flex;gap:6px;align-items:stretch}
+.scene-row canvas{flex:1 1 0;min-width:0;width:0;height:190px;border-radius:16px}
+.vs-col{flex:none;width:50px;display:flex;flex-direction:column}
+.vs{position:relative;flex:1;touch-action:none;cursor:pointer;border-radius:12px}
+.vs__track{position:absolute;left:50%;top:14px;bottom:14px;width:6px;margin-left:-3px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden}
+.vs__fill{position:absolute;left:0;right:0;bottom:0;background:var(--acc-mid)}
+.vs__thumb{position:absolute;left:50%;width:28px;height:28px;margin-left:-14px;border-radius:50%;background:var(--acc-light);border:3px solid #0A0905;box-shadow:0 3px 0 var(--acc-dark)}
+.vs:focus-visible{outline:3px solid var(--ink)}
+.vs-cap{font-size:.6rem;font-weight:800;text-align:center;color:var(--ink-soft);margin-top:2px}
+.fq-ctl{margin-top:8px}
+input[type=range].thin::-webkit-slider-runnable-track{height:4px}
+input[type=range].thin::-webkit-slider-thumb{width:24px;height:24px;margin-top:-10px}
+input[type=range].thin::-moz-range-track{height:4px}
+input[type=range].thin::-moz-range-thumb{width:18px;height:18px}
+.fq-scale{position:relative;height:1.1em;font-size:.68rem;font-weight:800;color:var(--ink-soft);margin:-4px 12px 6px}
+.fq-scale span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.fq-fine{display:flex;align-items:center;justify-content:center;gap:10px}
+.fq-field{display:inline-flex;align-items:center;gap:6px;font-weight:800}
+.fq-field .field{width:100px}
+.btn-mini{padding:6px 18px;min-height:42px;font-size:1.1rem}
+.btn-primary--alt{background:#0B141B;color:var(--acc-hi);box-shadow:0 5px 0 var(--acc-dark),inset 0 0 0 2px var(--acc-mid)}
+.btn-primary--alt[aria-pressed=true]{background:var(--acc-mid);color:var(--acc-text)}
+.graph-card{margin-top:12px}.graph-card canvas{width:100%;height:112px;border-radius:14px;margin-top:6px}
+.ov{display:none;position:fixed;inset:0;z-index:40;padding:16px;background:rgba(2,6,10,.78);align-items:center;justify-content:center}
+.ov.open{display:flex}
+.ov-panel{background:#101C26;border:1px solid var(--line);border-radius:26px;padding:20px 18px;width:min(100%,520px);max-height:88dvh;overflow-y:auto}
+.ov-panel h3{font-family:var(--font-display);font-size:1.25rem;margin:0 0 6px;text-align:center}
+.ov-panel p{line-height:1.55;margin:10px 0}
+.chip{display:inline-block;padding:4px 12px;border-radius:99px;font-size:.82rem;font-weight:800;border:1.5px solid currentColor;margin:3px}
+.t-freq{color:#4DD6C8}.t-aigu{color:#7CC8FF}.t-grave,.t-infra{color:#B79CFF}.t-ultra{color:#FF8FB1}.t-ok{color:#6FE3A0}.t-amp{color:#F26BC3}.t-db{color:#FFB347}.t-danger{color:#FF6B5E}
+@media(max-width:400px){.rd__val{font-size:1.25rem}.rd{padding:9px 10px}}
