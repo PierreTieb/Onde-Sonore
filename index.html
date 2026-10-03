@@ -18,7 +18,7 @@
   <div class="mode-caption">La propagation du son</div>
   <div class="mode-list">
     <button class="mode-btn" id="go-prop" aria-label="Découvrir la propagation du son"><span class="mode-btn__title">Découvrir la propagation du son</span><span class="mode-btn__subtitle">Fais éclater un pétard et chronomètre l'arrivée du son.</span></button>
-    <button class="mode-btn mode-btn--soon" disabled aria-disabled="true"><span class="mode-btn__title">Prochainement</span><span class="mode-btn__subtitle">Disponible prochainement</span></button>
+    <button class="mode-btn mode-btn--orange" id="go-measure" aria-label="Mesurer des distances"><span class="mode-btn__title">Mesurer des distances</span><span class="mode-btn__subtitle">Utiliser la propagation du son pour mesurer des distances.</span></button>
   </div>
 </section>
 
@@ -27,10 +27,10 @@
   <h2 class="app-title app-title--small">La propagation du son</h2>
   <p class="app-subtitle" style="margin-bottom:14px">Règle la distance et le milieu, puis déclenche le pétard.</p>
   <div id="lab-free"></div>
-  <div class="mode-list" id="calc-wrap" style="margin-top:16px"><button class="mode-btn mode-btn--amber" id="go-calc" aria-label="Calculer la vitesse du son"><span class="mode-btn__title">Calculer la vitesse du son</span><span class="mode-btn__subtitle">Même expérience, guidée pas à pas.</span></button></div>
+  <div class="mode-list" id="calc-wrap" style="margin-top:16px"><button class="mode-btn" id="go-calc" aria-label="Calculer la vitesse du son"><span class="mode-btn__title">Calculer la vitesse du son</span><span class="mode-btn__subtitle">Même expérience, guidée pas à pas.</span></button></div>
 </section>
 
-<section class="screen screen--wide screen--amber" id="screen-calc">
+<section class="screen screen--wide screen--yellow" id="screen-calc">
   <button class="btn-back" data-go="screen-prop" aria-label="Retour au bac à sable">← Retour</button>
   <h2 class="app-title app-title--small">Calculer la vitesse du son</h2>
   <div class="exp-progress" id="g-prog"></div>
@@ -55,13 +55,32 @@
   </div>
 </section>
 
-<section class="screen screen--amber" id="screen-retain">
+<section class="screen screen--wide screen--orange" id="screen-measure">
+  <button class="btn-back" data-go="screen-home" aria-label="Retour au menu">← Retour</button>
+  <div class="title-row"><h2 class="app-title app-title--small">Mesurer des distances</h2>
+    <label class="chk"><input type="checkbox" id="m-echo"><span class="chk__box" aria-hidden="true"></span>L'écho</label></div>
+  <div class="exp-progress" id="m-prog"></div>
+  <p class="exp-instruction" id="m-instr"></p>
+  <div id="lab-measure"></div>
+  <div class="card pop" id="m-s2" style="margin-top:12px">
+    <p class="panel-text" id="m-help"></p>
+    <div class="eqn" id="m-eq"></div>
+    <div class="ex-feedback" id="m-hint" style="min-height:1.6em"></div>
+    <div class="ex-actions" style="margin-top:4px"><button class="btn-primary" id="m-go" disabled>Calculer</button></div>
+    <div id="m-result" style="display:none">
+      <p class="result" id="m-res"></p><p class="small" id="m-calc"></p>
+      <div class="ex-actions"><button class="btn-primary" id="m-new">Nouvelle mesure</button><button class="btn-secondary" data-go="screen-home">Retour au menu</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="screen screen--yellow" id="screen-retain">
   <button class="btn-back" data-go="screen-calc" aria-label="Retour">← Retour</button>
   <h2 class="app-title app-title--small">À retenir</h2>
   <div class="card pop" style="padding:24px 16px">
     <p class="key">Le son est une onde qui se propage de molécule en molécule</p>
     <div class="cases"><div class="case">Il n'y a pas de matière dans l'espace, donc pas de son !</div>
-    <div class="case case--right">La vitesse de l'onde dépend de la nature de l'environnement traversé. En calculant, on peut trouver la vitesse du son dans l'air : 340&nbsp;m/s ou dans l'eau : 1&nbsp;500&nbsp;m/s.</div></div>
+    <div class="case case--right">La vitesse de l'onde dépend de la nature de l'environnement traversé. En calculant, on peut trouver la vitesse du son <span class="c-air">dans l'air : 340&nbsp;m/s</span>, <span class="c-water">dans l'eau : 1&nbsp;500&nbsp;m/s</span> ou <span class="c-rock">dans la roche : 5&nbsp;000&nbsp;m/s</span>.</div></div>
   </div>
   <div class="ex-actions"><button class="btn-primary" data-go="screen-home">Menu principal</button></div>
 </section>
@@ -72,6 +91,7 @@
 <script src="js/backgrounds.js"></script>
 <script src="js/lab.js"></script>
 <script src="js/guided.js"></script>
+<script src="js/measure.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

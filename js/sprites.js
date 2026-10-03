@@ -2,7 +2,7 @@
 window.Sprites=(function(){
   var c,IMG={},cbs=[];
   // Images facultatives dans img/ : si un fichier manque, le dessin intégré prend le relais
-  ['petard','astronaute','humain','plongeur','mineur'].forEach(function(n){var i=new Image();i.onload=function(){IMG[n]=i;cbs.forEach(function(f){f()})};i.src='img/'+n+'.png'});
+  ['petard','astronaute','fille','plongeur','mineur'].forEach(function(n){var i=new Image();i.onload=function(){IMG[n]=i;cbs.forEach(function(f){f()})};i.src='img/'+n+'.png'});
   function img(k,x,y,h){var i=IMG[k];if(!i)return false;var w=h*i.width/i.height;c.drawImage(i,x-w/2,y-h,w,h);return true}
   function rr(x,y,w,h,rd){c.beginPath();c.moveTo(x+rd,y);c.arcTo(x+w,y,x+w,y+h,rd);c.arcTo(x+w,y+h,x,y+h,rd);c.arcTo(x,y+h,x,y,rd);c.arcTo(x,y,x+w,y,rd);c.fill()}
   function ci(x,y,r){c.beginPath();c.arc(x,y,r,0,6.283);c.fill()}
@@ -10,7 +10,7 @@ window.Sprites=(function(){
   function cracker(ctx,x,y,s){c=ctx;if(img('petard',x,y,84*s))return;c.save();c.translate(x,y);c.scale(s,s);c.rotate(-.42);
     c.fillStyle='#E23B2E';rr(-8,-46,16,46,6);c.fillStyle='#FF7A5C';rr(-5,-44,4,42,2);c.fillStyle='#F6E3A1';c.fillRect(-8,-30,16,8);
     c.strokeStyle='#8A6A3B';c.lineWidth=2.2;c.beginPath();c.moveTo(0,-46);c.quadraticCurveTo(2,-54,8,-56);c.stroke();c.fillStyle='#FFD84D';ci(9,-58,4);c.fillStyle='#fff';ci(9,-58,1.8);c.restore()}
-  function person(ctx,x,y,s,m){c=ctx;if(img({air:'humain',water:'plongeur',rock:'mineur',space:'astronaute'}[m],x,y,(m==='space'?98:90)*s))return;c.save();c.translate(x,y);c.scale(s,s);var W='#F4F5FA';
+  function person(ctx,x,y,s,m){c=ctx;if(img({air:'fille',water:'plongeur',rock:'mineur',space:'astronaute'}[m],x,y,({air:100,water:78,rock:100,space:98}[m])*s))return;c.save();c.translate(x,y);c.scale(s,s);var W='#F4F5FA';
     if(m==='space'){limb(-14,-34,-27,-45,7,W);limb(14,-34,27,-45,7,W);limb(-6,-14,-9,-2,8,W);limb(6,-14,9,-2,8,W);
       c.fillStyle='#D3D7E6';rr(-19,-52,10,26,4);c.fillStyle=W;rr(-13,-46,26,30,10);c.fillStyle='#4C9BFF';ci(2,-34,2.2);c.fillStyle=W;ci(0,-62,16);
       c.fillStyle='#3A1D5C';c.beginPath();c.ellipse(1,-62,11.5,10,0,0,6.283);c.fill();c.fillStyle='rgba(255,255,255,.55)';ci(-3,-66,2.6);ci(4,-58,1.4)}
