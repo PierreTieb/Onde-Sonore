@@ -5,8 +5,9 @@ window.Freq=(function(){
   var cs=$('fq-scene'),cx=cs.getContext('2d'),cg=$('fq-graph'),gx=cg.getContext('2d');
   var EQ=[[0,'Silence'],[10,'Feuilles dans le vent'],[25,'Chuchotement'],[35,'Salle calme'],[50,'Pluie légère'],[60,'Conversation'],[75,'Rue animée'],[90,'Tondeuse, perceuse'],[100,'Discothèque'],[110,'Concert'],[120,'Avion au décollage']];
   function eq(db){var r=EQ[0][1];EQ.forEach(function(e){if(db>=e[0])r=e[1]});return r}
-  function cyc(f){return 16*Math.log(1+f/100)/Math.log(301)}                 // nombre de vagues affichées (échelle visuelle, non réelle)
-  function fv(f){return f<=0?0:.35+cyc(f)/16}                               // vitesse visuelle de l'animation
+  var NMAX=5,DMAX=6;                                                         // réglages de lisibilité : nombre max de vagues affichées ; déplacement max (px) à 120 dB
+  function cyc(f){return NMAX*Math.log(1+f/100)/Math.log(301)}                 // nombre de vagues affichées (échelle visuelle, non réelle)
+  function fv(f){return f<=0?0:.35+cyc(f)/NMAX}                               // vitesse visuelle de l'animation
   function fromV(v){return v<=0?0:Math.round(10*Math.pow(3000,(v-1)/999))}   // curseur logarithmique : 0 puis 10 Hz → 30 000 Hz
   function toV(f){return f<=0?0:Math.max(1,Math.min(1000,Math.round(1+999*Math.log(Math.max(f,10)/10)/Math.log(3000))))}
   function clamp(x,a,b){return Math.max(a,Math.min(b,x))}
@@ -49,19 +50,19 @@ window.Freq=(function(){
   function mix(a,b,k){return'rgb('+Math.round(a[0]+(b[0]-a[0])*k)+','+Math.round(a[1]+(b[1]-a[1])*k)+','+Math.round(a[2]+(b[2]-a[2])*k)+')'}
   var NEU=[150,178,194],WARM=[255,170,60],COOL=[60,200,255];
   function drawScene(){
-    var c=cx,W=st.W,H=st.H,M=30,L=W-M-8,sp=11,cols=Math.floor(L/sp),rows=9,zt=14,zh=H-28,rh=zh/rows;
+    var c=cx,W=st.W,H=st.H,M=30,L=W-M-8,sp=7,cols=Math.floor(L/sp),rows=9,zt=14,zh=H-28,rh=zh/rows;
     c.fillStyle='#050C11';c.fillRect(0,0,W,H);
     c.strokeStyle='rgba(110,210,240,.07)';c.lineWidth=1;c.beginPath();for(var gx0=M;gx0<=W;gx0+=L/8){c.moveTo(gx0,0);c.lineTo(gx0,H)}c.stroke();
-    var n=cyc(st.f),k=n>0?TWO*n/L:0,D=st.f<=0?0:(st.db/120)*Math.min(sp*1.5,k>0?.8/k:sp*1.5),ph=TWO*fv(st.f)*st.t;
+    var n=cyc(st.f),k=n>0?TWO*n/L:0,D=st.f<=0?0:(st.db/120)*Math.min(DMAX,k>0?.85/k:DMAX),ph=TWO*fv(st.f)*st.t;
     function u(x){return D*Math.sin(k*x-ph)}function s(x){return D*k*Math.cos(k*x-ph)}
     c.fillStyle='#16303B';c.fillRect(2,zt-8,14,zh+16);c.fillStyle='#FFB26B';c.fillRect(M-14+u(0),zt-4,7,zh+8);   // haut-parleur
     var tr=Math.round(cols/2),tx=0,ty=0;
     for(var r=0;r<rows;r++){var y=zt+(r+.5)*rh;
-      for(var i=0;i<cols;i++){var x0=(i+.5)*sp,cp=clamp(-s(x0)/.8,-1,1),px=M+x0+u(x0);
+      for(var i=0;i<cols;i++){var x0=(i+.5)*sp,cp=clamp(-s(x0)/.3,-1,1),px=M+x0+u(x0);
         if(r===4&&i===tr){tx=px;ty=y;continue}
-        c.fillStyle=cp>=0?mix(NEU,WARM,cp):mix(NEU,COOL,-cp);c.beginPath();c.arc(px,y,2.5,0,TWO);c.fill()}}
+        c.fillStyle=cp>=0?mix(NEU,WARM,cp):mix(NEU,COOL,-cp);c.beginPath();c.arc(px,y,2.1,0,TWO);c.fill()}}
     var rx=M+(tr+.5)*sp;c.strokeStyle='rgba(255,255,255,.35)';c.setLineDash([3,4]);c.beginPath();c.moveTo(rx,zt);c.lineTo(rx,zt+zh);c.stroke();c.setLineDash([]);
-    c.shadowColor='#fff';c.shadowBlur=14;c.fillStyle='#fff';c.beginPath();c.arc(tx,ty,4.6,0,TWO);c.fill();c.shadowBlur=0;
+    c.shadowColor='#fff';c.shadowBlur=14;c.fillStyle='#fff';c.beginPath();c.arc(tx,ty,4,0,TWO);c.fill();c.shadowBlur=0;
   }
   function drawGraph(){
     var c=gx,W=st.GW,H=st.GH,b=H/2,A=(st.db/120)*(H/2-14),n=cyc(st.f),k=n>0?TWO*n/(W-16):0,ph=st.f<=0?0:TWO*fv(st.f)*st.t;
