@@ -83,7 +83,7 @@
 <section class="screen screen--wide screen--orange" id="screen-freq">
   <button class="btn-back" data-go="screen-home" aria-label="Retour au menu">← Retour</button>
   <h2 class="app-title app-title--small">Les caractéristiques d'un son</h2>
-  <p class="app-subtitle" style="margin-bottom:14px;max-width:44ch">Teste les différents paramètres d'un son, sa fréquence, son amplitude et son niveau d'intensité sonore. Pour plus d'informations, chaque grandeur peut être détaillée, tu n'as qu'à cliquer sur les&nbsp;?</p>
+  <p class="app-subtitle" style="margin-bottom:14px;max-width:44ch">Teste les différents paramètres d'un son, sa fréquence, son amplitude et son niveau d'intensité sonore. Pour plus d'informations, chaque grandeur peut être détaillée, tu n'as qu'à cliquer sur les <span class="qbtn qbtn--inline" aria-hidden="true">?</span></p>
   <div class="rd-row">
     <div class="card rd" id="fq-box"><div class="rd__head"><span>Fréquence</span><button class="qbtn" data-help="freq" aria-label="Explication : la fréquence">?</button></div><div class="rd__val" id="fq-val">440 Hz</div><div class="rd__tag" id="fq-tag"></div></div>
     <div class="card rd rd--ok" id="db-box"><div class="rd__head"><span>Niveau d'intensité sonore</span><button class="qbtn" data-help="db" aria-label="Explication : le niveau d'intensité sonore">?</button></div><div class="rd__val" id="db-val">≈ 60 dB</div><div class="rd__tag" id="db-tag"></div></div>
@@ -107,27 +107,20 @@
 <section class="screen screen--wide screen--music" id="screen-music">
   <button class="btn-back" data-go="screen-home" aria-label="Retour au menu">← Retour</button>
   <h2 class="app-title app-title--small">La musique</h2>
-  <p class="app-subtitle" style="margin-bottom:14px;max-width:44ch">Choisis un instrument, puis touche les notes du clavier ou un accord pour les entendre.</p>
-  <div class="row-label">Instrument</div>
-  <div class="seg seg3" id="mu-inst"><button data-i="piano" aria-pressed="true">Piano</button><button data-i="organ" aria-pressed="false">Orgue</button><button data-i="xylo" aria-pressed="false">Xylophone</button></div>
-  <div class="card">
-    <div class="kb kb--piano" id="kb" role="group" aria-label="Clavier"></div>
-    <div class="mu-sel" id="mu-sel"></div>
-    <div class="mu-chord" id="mu-chord" aria-live="polite"></div>
+  <p class="app-subtitle" style="margin-bottom:12px;max-width:44ch">Choisis un instrument, puis touche le clavier ou un accord.</p>
+  <div class="seg seg3" id="mu-inst" style="margin-bottom:10px"><button data-i="piano" aria-pressed="true">Piano</button><button data-i="organ" aria-pressed="false">Orgue</button><button data-i="xylo" aria-pressed="false">Xylophone</button></div>
+  <div class="mu-song"><select id="mu-song" aria-label="Choisir un morceau"><option value="">Choisir un morceau…</option></select><select id="mu-spd" aria-label="Vitesse"><option value="slow">Lent</option><option value="normal" selected>Normal</option><option value="fast">Rapide</option></select><button class="btn-secondary btn-mini" id="mu-go" disabled aria-label="Rejouer le morceau">▶</button></div>
+  <div class="card" style="padding:8px"><div class="kb kb--piano" id="kb" role="group" aria-label="Clavier"></div></div>
+  <div class="card" style="margin-top:10px;padding:10px 12px">
+    <div class="row-label" id="mu-wtitle" style="font-size:.9rem;margin-bottom:4px">La forme de l'onde (piano)</div>
+    <canvas id="mu-wave" class="wv" role="img" aria-label="Forme de l'onde des notes qui sonnent"></canvas>
+    <p class="small mu-cap" id="mu-wcap" style="margin:6px 0 0;min-height:2.6em"></p>
   </div>
-  <div class="card" style="margin-top:12px">
-    <div class="row-label t-joy">Accords joyeux (majeurs)</div><div class="ch-row" id="ch-maj"></div>
-    <div class="row-label t-sad" style="margin-top:14px">Accords tristes (mineurs)</div><div class="ch-row" id="ch-min"></div>
-  </div>
-  <div class="card" style="margin-top:12px">
-    <div class="row-label" id="mu-wtitle" style="font-size:.95rem">La forme de l'onde (piano)</div>
-    <canvas id="mu-wave" class="wv" role="img" aria-label="Forme de l'onde des notes jouées"></canvas>
-    <p class="small" id="mu-wcap" style="margin:8px 0 0"></p>
-  </div>
-  <div class="card" style="margin-top:12px">
-    <div class="row-label" style="font-size:.95rem">La règle des fréquences</div>
-    <div id="mu-rule" role="img" aria-label="Règle des fréquences des notes"></div>
-    <p class="small" style="margin:6px 0 0">Du Do grave au Do aigu, la fréquence double : 262 Hz → 523 Hz (une octave).</p>
+  <div class="card ch-card">
+    <div class="ch-wrap">
+      <div><div class="row-label t-joy">Joyeux</div><div class="ch-grid" id="ch-maj"></div></div>
+      <div class="ch-right"><div class="row-label t-sad">Triste</div><div class="ch-grid" id="ch-min"></div></div>
+    </div>
   </div>
 </section>
 
@@ -153,6 +146,7 @@
 <script src="js/guided.js"></script>
 <script src="js/measure.js"></script>
 <script src="js/frequency.js"></script>
+<script src="js/songs.js"></script>
 <script src="js/instruments.js"></script>
 <script src="js/music.js"></script>
 <script src="js/app.js"></script>
