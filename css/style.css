@@ -169,3 +169,36 @@ input[type=range].thin::-moz-range-thumb{width:18px;height:18px}
 .chip{display:inline-block;padding:4px 12px;border-radius:99px;font-size:.82rem;font-weight:800;border:1.5px solid currentColor;margin:3px}
 .t-freq{color:#4DD6C8}.t-aigu{color:#7CC8FF}.t-grave,.t-infra{color:#B79CFF}.t-ultra{color:#FF8FB1}.t-ok{color:#6FE3A0}.t-amp{color:#F26BC3}.t-db{color:#FFB347}.t-danger{color:#FF6B5E}
 @media(max-width:400px){.rd__val{font-size:1.25rem}.rd{padding:9px 10px}}
+
+/* ---- Mode 4 : La musique ---- */
+body[data-theme=music]{--bg-top:#0D0704;--bg-bottom:#1C0F06;--glow:radial-gradient(ellipse 75% 100% at 50% 0%,rgba(255,140,60,.16),transparent)}
+.screen--music{--acc-light:#FFC48C;--acc-mid:#FF9B52;--acc-dark:#A5521A;--acc-text:#2A1000;--acc-hi:#FFB070}
+.mode-btn--music{--c-light:#FFC48C;--c-mid:#FF9F5A;--c-dark:#B8682A;--c-text:#4A2200}
+.seg3{grid-template-columns:repeat(3,1fr)}.seg3 button{font-size:.85rem;min-height:46px}
+.kb{position:relative;height:170px;-webkit-user-select:none;user-select:none;--lit-col:rgba(255,155,82,.85)}
+.wk,.bk,.ch{position:relative}
+.wk,.bk{position:absolute;top:0;border:none;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;font-family:inherit;font-weight:800;padding:0 0 8px}
+.wk{bottom:0;width:calc(12.5% - 3px);border-radius:0 0 10px 10px;background:linear-gradient(#F6F2EA,#DAD4C6);color:#4A3A2A;font-size:.78rem;box-shadow:inset 0 -6px 0 rgba(0,0,0,.1),0 3px 0 #857B6B}
+.bk{height:60%;width:7.5%;z-index:2;border-radius:0 0 8px 8px;background:linear-gradient(#2C2824,#0E0C0A);color:#D8CFC0;font-size:.58rem;padding-bottom:6px;box-shadow:0 3px 0 #000}
+.wk:active,.bk:active,.ch:active{transform:translateY(2px)}
+.lit::after{content:'';position:absolute;inset:0;border-radius:inherit;background:var(--lit-col);pointer-events:none;animation:lit 1.9s ease-out forwards}
+@keyframes lit{0%{opacity:1}100%{opacity:0}}
+/* orgue : touches inversées, cadre en bois */
+.kb--organ::before{content:'';position:absolute;left:-4px;right:-4px;top:-9px;height:9px;background:linear-gradient(#7A4E2E,#4E2F1A);border-radius:6px 6px 0 0}
+.kb--organ .wk{background:linear-gradient(#4A2E1C,#2A180C);color:#EBDDBF;box-shadow:inset 0 -6px 0 rgba(0,0,0,.25),0 3px 0 #120A05}
+.kb--organ .bk{background:linear-gradient(#F4ECD8,#CFC3A6);color:#3A2A1A;box-shadow:0 3px 0 #8A7C60}
+/* xylophone : lames colorées de plus en plus courtes, sur deux rails */
+.kb--xylo{--lit-col:rgba(255,255,255,.8)}
+.kb--xylo::before,.kb--xylo::after{content:'';position:absolute;left:0;right:0;height:5px;background:#3A2A1A;border-radius:3px}
+.kb--xylo::before{top:24%}.kb--xylo::after{bottom:24%}
+.kb--xylo .wk{top:calc(var(--w)*4%);bottom:calc(var(--w)*4%);z-index:1;border-radius:14px;align-items:center;padding:0;background:hsl(var(--h) 78% 56%);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.45);box-shadow:inset 0 -5px 0 rgba(0,0,0,.18)}
+.kb--xylo .bk{top:4%;height:38%;border-radius:12px;align-items:center;padding:0;background:hsl(var(--h) 60% 40%);color:#fff;box-shadow:inset 0 -4px 0 rgba(0,0,0,.25)}
+.mu-sel{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:14px;min-height:34px;align-items:center}
+.mu-chip{padding:4px 10px;border-radius:99px;background:rgba(255,255,255,.07);border:1px solid var(--line);font-size:.82rem;font-weight:700;color:var(--ink-soft)}.mu-chip b{color:var(--acc-hi)}
+.mu-chord{min-height:2.7em;text-align:center;font-weight:800;margin-top:8px;line-height:1.35;color:var(--ink-soft)}
+.mu-chord.is-joy{color:#FFD27A}.mu-chord.is-sad{color:#8CC4FF}
+.ch-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ch{min-height:58px;padding:4px 2px;border-radius:12px;font-family:inherit;cursor:pointer;background:#0A0F13;border:2px solid;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.ch b{font-size:1.1rem}.ch small{font-size:.62rem;font-weight:700;opacity:.9;white-space:nowrap}
+.ch--maj{border-color:#FFB36B;color:#FFC98F}.ch--min{border-color:#6FA8E8;color:#9CC8FF}
+.t-joy{color:#FFC98F}.t-sad{color:#9CC8FF}

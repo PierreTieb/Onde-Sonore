@@ -23,7 +23,7 @@
   <div class="mode-caption" style="margin-top:30px">Fréquence et Intensité</div>
   <div class="mode-list">
     <button class="mode-btn mode-btn--orange" id="go-freq" aria-label="Découvre les caractéristiques d'un son"><span class="mode-btn__title">Découvre les caractéristiques d'un son</span><span class="mode-btn__subtitle">Fréquence, amplitude et niveau d'intensité sonore.</span></button>
-    <button class="mode-btn mode-btn--soon mode-btn--soon-o" disabled aria-disabled="true"><span class="mode-btn__title">La musique</span><span class="mode-btn__subtitle">Prochainement</span></button>
+    <button class="mode-btn mode-btn--music" id="go-music" aria-label="La musique"><span class="mode-btn__title">La musique</span><span class="mode-btn__subtitle">Joue des notes et des accords avec différents instruments.</span></button>
   </div>
 
 </section>
@@ -104,6 +104,23 @@
   <div class="ex-feedback" id="fq-msg" aria-live="polite"></div>
 </section>
 
+<section class="screen screen--wide screen--music" id="screen-music">
+  <button class="btn-back" data-go="screen-home" aria-label="Retour au menu">← Retour</button>
+  <h2 class="app-title app-title--small">La musique</h2>
+  <p class="app-subtitle" style="margin-bottom:14px;max-width:44ch">Choisis un instrument, puis touche les notes du clavier ou un accord pour les entendre.</p>
+  <div class="row-label">Instrument</div>
+  <div class="seg seg3" id="mu-inst"><button data-i="piano" aria-pressed="true">Piano</button><button data-i="organ" aria-pressed="false">Orgue</button><button data-i="xylo" aria-pressed="false">Xylophone</button></div>
+  <div class="card">
+    <div class="kb kb--piano" id="kb" role="group" aria-label="Clavier"></div>
+    <div class="mu-sel" id="mu-sel"></div>
+    <div class="mu-chord" id="mu-chord" aria-live="polite"></div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <div class="row-label t-joy">Accords joyeux (majeurs)</div><div class="ch-row" id="ch-maj"></div>
+    <div class="row-label t-sad" style="margin-top:14px">Accords tristes (mineurs)</div><div class="ch-row" id="ch-min"></div>
+  </div>
+</section>
+
 <section class="screen screen--yellow" id="screen-retain">
   <button class="btn-back" data-go="screen-calc" aria-label="Retour">← Retour</button>
   <h2 class="app-title app-title--small">À retenir</h2>
@@ -126,6 +143,8 @@
 <script src="js/guided.js"></script>
 <script src="js/measure.js"></script>
 <script src="js/frequency.js"></script>
+<script src="js/instruments.js"></script>
+<script src="js/music.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
