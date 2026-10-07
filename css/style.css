@@ -231,3 +231,18 @@ body[data-theme=music]{--bg-top:#0D0704;--bg-bottom:#1C0F06;--glow:radial-gradie
 .mu-song .btn-mini{flex:none;width:52px;padding:0;min-height:44px}
 
 .vs--off{opacity:.4;pointer-events:none}
+
+/* ---- Analyse : note la plus proche et jauge ---- */
+.tune__row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:2px}
+.tune__cell{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:14px;padding:6px 8px;text-align:center}
+.tune__cell small{display:block;font-size:.64rem;font-weight:800;color:var(--ink-soft)}
+.tune__cell b{font-family:var(--font-display);font-weight:600;font-size:1.05rem;color:var(--acc-hi);white-space:nowrap}
+.tune__cell b span{font-size:.78rem;color:var(--ink-soft);font-family:var(--font-body);font-weight:800}
+.tg{position:relative;height:16px;margin:16px 8px 6px;border-radius:99px;background:rgba(255,255,255,.1)}
+.tg__ok{position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);background:rgba(111,227,160,.45);border-radius:99px}
+.tg__mid{position:absolute;left:50%;top:-4px;bottom:-4px;width:2px;margin-left:-1px;background:#fff;opacity:.6}
+.tg__needle{position:absolute;top:-6px;left:50%;width:6px;height:28px;margin-left:-3px;border-radius:3px;background:var(--acc-light);box-shadow:0 0 0 2px #0A0F13;transition:left .08s linear}
+.tg--ok .tg__needle{background:#6FE3A0}
+.tg--off .tg__needle{display:none}
+.tg__lab{display:flex;justify-content:space-between;align-items:center;font-size:.68rem;font-weight:800;color:var(--ink-soft)}
+.tg__lab b{font-size:.95rem;color:var(--ink)}.tg__lab b.is-ok{color:#6FE3A0}

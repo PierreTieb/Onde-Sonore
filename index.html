@@ -97,6 +97,14 @@
       <input type="range" class="thin" id="fq-range" min="0" max="1000" aria-label="Fréquence">
       <div class="fq-scale"><span style="left:8.7%">20 Hz</span><span style="left:94.9%;transform:translateX(-82%)">20 000 Hz</span></div>
       <div class="fq-fine"><button class="btn-secondary btn-mini" id="fq-minus" aria-label="Fréquence moins">−</button><label class="fq-field"><input class="field" id="fq-input" inputmode="numeric" autocomplete="off" aria-label="Fréquence en hertz">Hz</label><button class="btn-secondary btn-mini" id="fq-plus" aria-label="Fréquence plus">+</button></div>
+      <div class="tune" id="fq-tune" style="display:none">
+        <div class="tune__row">
+          <div class="tune__cell"><small>Fréquence captée</small><b id="tn-f">— Hz</b></div>
+          <div class="tune__cell"><small>Note la plus proche</small><b id="tn-n">—</b></div>
+        </div>
+        <div class="tg" id="tn-g" role="img" aria-label="Écart avec la note la plus proche"><div class="tg__ok" id="tn-ok"></div><div class="tg__mid"></div><div class="tg__needle" id="tn-nd"></div></div>
+        <div class="tg__lab"><span>plus grave</span><b id="tn-s">—</b><span>plus aigu</span></div>
+      </div>
     </div>
   </div>
   <div class="card graph-card"><div class="rd__head"><span>Graphique des molécules</span><button class="qbtn" data-help="graph" aria-label="Explication : le graphique">?</button></div><canvas id="fq-graph" role="img" aria-label="Graphique sinusoïdal"></canvas><p class="small" style="margin:6px 0 0">Nombre de vagues non réel : seule la tendance compte.</p></div>

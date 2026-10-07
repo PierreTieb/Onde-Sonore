@@ -110,12 +110,30 @@ window.Freq=(function(){
   function micUI(on){
     mic=on;var b=$('fq-analyze');b.textContent=on?'Arrêter l\'analyse':'Analyser';b.setAttribute('aria-pressed',on);
     ['fq-range','fq-input','fq-minus','fq-plus','fq-audio'].forEach(function(i){$(i).disabled=on});
+    document.querySelector('.fq-fine').style.display=on?'none':'';$('fq-tune').style.display=on?'':'none';disp=null;rec=[];
     sl.classList.toggle('vs--off',on);sl.setAttribute('aria-disabled',on);$('fq-meas').style.display=on?'':'none';
+  }
+  // note la plus proche (La = 440 Hz) : affichage indicatif, sans numéro d'octave
+  var NOTE=['Do','Do♯','Ré','Ré♯','Mi','Fa','Fa♯','Sol','Sol♯','La','La♯','Si'],disp=null,rec=[],lastUpd=0;
+  function tune(fm,d){
+    var g=$('tn-g'),s=$('tn-s');
+    if(d==null||d<27||d>4200){$('tn-f').textContent=d==null?'— Hz':hz(Math.round(d));$('tn-n').textContent='—';g.className='tg tg--off';s.textContent=d==null?'Pas de note nette':'Hors des notes';s.className='';return}
+    var k=Math.round(12*Math.log(d/440)/Math.LN2),fn=440*Math.pow(2,k/12),half=fn*(Math.pow(2,1/24)-1),diff=fm-fn,ok=Math.abs(diff)<=2;
+    $('tn-f').textContent=hz(Math.round(d));
+    $('tn-n').innerHTML=NOTE[((k+9)%12+12)%12]+' <span>'+Math.round(fn)+' Hz</span>';
+    $('tn-ok').style.width=Math.min(100,4/(2*half)*100)+'%';                                  // zone « Correct » : ±2 Hz
+    $('tn-nd').style.left=(50+50*clamp(diff/half,-1,1))+'%';
+    g.className='tg'+(ok?' tg--ok':'');s.textContent=ok?'Correct':diff<0?'Plus grave':'Plus aigu';s.className=ok?'is-ok':'';
   }
   function natureOf(cl){return cl>.85?'son net':cl>.5?'son mélangé':'bruit'}
   function onMic(m){
-    st.db=clamp(Math.round(m.db),0,120);st.nof=m.f==null;st.f=m.f==null?0:clamp(Math.round(m.f),0,MAXF);update();
-    var n=performance.now();if(n-lastChips<150)return;lastChips=n;
+    var n=performance.now();if(n-lastUpd<100)return;lastUpd=n;                              // rafraîchissement toutes les 100 ms
+    st.db=clamp(Math.round(m.db),0,120);
+    if(m.f==null){rec=[];disp=null}                                                           // la valeur affichée est la médiane des 5 dernières mesures (100 ms),
+    else{rec.push(m.f);if(rec.length>5)rec.shift();                                           // et ne change que si l'écart dépasse 3 Hz
+      if(rec.length>=3){var md=rec.slice().sort(function(a,b){return a-b})[rec.length>>1];if(disp==null||Math.abs(md-disp)>3)disp=md}}
+    st.nof=disp==null;st.f=disp==null?0:clamp(Math.round(disp),0,MAXF);update();tune(m.f,disp);
+    if(n-lastChips<150)return;lastChips=n;
     var per=m.f==null?'—':(1000/m.f>=10?(1000/m.f).toFixed(1):(1000/m.f).toFixed(2)).replace('.',',')+' ms';
     $('fq-meas').innerHTML='<span class="mu-chip">Période <b>'+per+'</b></span><span class="mu-chip">Amplitude <b>'+Math.round(m.amp*100)+' %</b></span><span class="mu-chip">Nature <b>'+(m.silent?'silence':natureOf(m.clarity))+'</b></span>';
   }
