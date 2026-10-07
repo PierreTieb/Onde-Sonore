@@ -100,7 +100,8 @@
     </div>
   </div>
   <div class="card graph-card"><div class="rd__head"><span>Graphique des molécules</span><button class="qbtn" data-help="graph" aria-label="Explication : le graphique">?</button></div><canvas id="fq-graph" role="img" aria-label="Graphique sinusoïdal"></canvas><p class="small" style="margin:6px 0 0">Nombre de vagues non réel : seule la tendance compte.</p></div>
-  <div class="ex-actions"><button class="btn-primary" id="fq-play">Pause</button><button class="btn-primary btn-primary--alt" id="fq-audio" aria-pressed="false">Écouter</button></div>
+  <div class="ex-actions"><button class="btn-primary" id="fq-analyze" aria-pressed="false">Analyser</button><button class="btn-primary btn-primary--alt" id="fq-audio" aria-pressed="false">Écouter</button></div>
+  <div class="mu-sel" id="fq-meas" style="display:none;margin-top:8px"></div>
   <div class="ex-feedback" id="fq-msg" aria-live="polite"></div>
 </section>
 
@@ -140,6 +141,7 @@
 <script src="js/utils.js"></script>
 <script src="js/sound.js"></script>
 <script src="js/tone.js"></script>
+<script src="js/mic.js"></script>
 <script src="js/sprites.js"></script>
 <script src="js/backgrounds.js"></script>
 <script src="js/lab.js"></script>

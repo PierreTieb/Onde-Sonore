@@ -1,7 +1,8 @@
 // Mode 3 : Fréquence et intensité (molécules, graphique sinusoïdal, compteur de dB, fenêtres d'aide)
 window.Freq=(function(){
   var $=Utils.$,MAXF=30000,TWO=6.2832;
-  var st={f:440,db:60,play:!matchMedia('(prefers-reduced-motion:reduce)').matches,t:0,run:false,last:0,W:300,H:190,GW:300,GH:112,dirty:true,audio:false};
+  var st={f:440,db:60,play:!matchMedia('(prefers-reduced-motion:reduce)').matches,t:0,run:false,last:0,W:300,H:190,GW:300,GH:112,dirty:true,audio:false,nof:false};
+  var mic=false,saved=null,lastChips=0;
   var cs=$('fq-scene'),cx=cs.getContext('2d'),cg=$('fq-graph'),gx=cg.getContext('2d');
   var EQ=[[0,'Silence'],[10,'Feuilles dans le vent'],[25,'Chuchotement'],[35,'Salle calme'],[50,'Pluie légère'],[60,'Conversation'],[75,'Rue animée'],[90,'Tondeuse, perceuse'],[100,'Discothèque'],[110,'Concert'],[120,'Avion au décollage']];
   function eq(db){var r=EQ[0][1];EQ.forEach(function(e){if(db>=e[0])r=e[1]});return r}
@@ -17,9 +18,11 @@ window.Freq=(function(){
   /* ---------- affichage des valeurs ---------- */
   function update(){
     var f=st.f,db=st.db;
-    $('fq-val').textContent=hz(f);
-    var tag=f<20?'Infrasons : inaudibles':f>20000?'Ultrasons : inaudibles':'Audible : '+(f<250?'grave':f<2000?'médium':'aigu');
-    $('fq-tag').textContent=tag;$('fq-tag').className='rd__tag '+(f<20?'t-infra':f>20000?'t-ultra':'t-ok');
+    var lost=mic&&st.nof;
+    $('fq-val').textContent=lost?'— Hz':hz(f);
+    var tag=lost?'Pas de fréquence nette (bruit ou silence)':f<20?'Infrasons : inaudibles':f>20000?'Ultrasons : inaudibles':'Audible : '+(f<250?'grave':f<2000?'médium':'aigu');
+    if(mic&&!lost)tag='Micro · '+tag;
+    $('fq-tag').textContent=tag;$('fq-tag').className='rd__tag '+(lost?'':f<20?'t-infra':f>20000?'t-ultra':'t-ok');
     $('db-val').textContent='≈ '+db+' dB';
     $('db-tag').textContent=eq(db)+(db>=120?' · seuil de la douleur':db>=90?' · danger pour l\'oreille':'');
     $('db-box').className='card rd '+(db>=120?'rd--pain':db>=90?'rd--danger':db>=60?'rd--warn':'rd--ok');
@@ -83,10 +86,10 @@ window.Freq=(function(){
   /* ---------- commandes ---------- */
   var sl=$('amp-sl'),drag=false;
   function fromPointer(e){var r=sl.getBoundingClientRect();setDb(clamp(1-(e.clientY-r.top-14)/(r.height-28),0,1)*120)}
-  sl.addEventListener('pointerdown',function(e){drag=true;try{sl.setPointerCapture(e.pointerId)}catch(x){}fromPointer(e);e.preventDefault()});
+  sl.addEventListener('pointerdown',function(e){if(mic)return;drag=true;try{sl.setPointerCapture(e.pointerId)}catch(x){}fromPointer(e);e.preventDefault()});
   sl.addEventListener('pointermove',function(e){if(drag)fromPointer(e)});
   ['pointerup','pointercancel'].forEach(function(n){sl.addEventListener(n,function(){drag=false})});
-  sl.addEventListener('keydown',function(e){var d={ArrowUp:1,ArrowRight:1,ArrowDown:-1,ArrowLeft:-1,PageUp:10,PageDown:-10}[e.key];
+  sl.addEventListener('keydown',function(e){if(mic)return;var d={ArrowUp:1,ArrowRight:1,ArrowDown:-1,ArrowLeft:-1,PageUp:10,PageDown:-10}[e.key];
     if(d){setDb(st.db+d);e.preventDefault()}else if(e.key==='Home'){setDb(0)}else if(e.key==='End'){setDb(120)}});
   $('fq-range').addEventListener('input',function(){setF(fromV(+this.value))});
   function step(sgn){var s=Math.max(1,Math.round(st.f*.01));setF(st.f+sgn*s)}
@@ -94,7 +97,6 @@ window.Freq=(function(){
   function commit(){var v=parseFloat(String($('fq-input').value).replace(',','.').replace(/\s/g,''));if(isNaN(v)){update();return}setF(v)}
   $('fq-input').addEventListener('change',commit);
   $('fq-input').addEventListener('keydown',function(e){if(e.key==='Enter'){commit();this.blur()}});
-  $('fq-play').addEventListener('click',function(){st.play=!st.play;this.textContent=st.play?'Pause':'Lecture';this.setAttribute('aria-label',st.play?'Mettre en pause':'Reprendre')});
   function audioBtn(on){var b=$('fq-audio');b.setAttribute('aria-pressed',on);b.textContent=on?'Couper le son':'Écouter'}
   $('fq-audio').addEventListener('click',function(){
     if(st.audio){st.audio=false;Tone.stop();audioBtn(false);audio();return}
@@ -102,6 +104,32 @@ window.Freq=(function(){
     st.audio=true;audioBtn(true);audio();
   });
   window.addEventListener('resize',function(){if(st.run)size()});
+
+
+  /* ---------- analyse du micro ---------- */
+  function micUI(on){
+    mic=on;var b=$('fq-analyze');b.textContent=on?'Arrêter l\'analyse':'Analyser';b.setAttribute('aria-pressed',on);
+    ['fq-range','fq-input','fq-minus','fq-plus','fq-audio'].forEach(function(i){$(i).disabled=on});
+    sl.classList.toggle('vs--off',on);sl.setAttribute('aria-disabled',on);$('fq-meas').style.display=on?'':'none';
+  }
+  function natureOf(cl){return cl>.85?'son net':cl>.5?'son mélangé':'bruit'}
+  function onMic(m){
+    st.db=clamp(Math.round(m.db),0,120);st.nof=m.f==null;st.f=m.f==null?0:clamp(Math.round(m.f),0,MAXF);update();
+    var n=performance.now();if(n-lastChips<150)return;lastChips=n;
+    var per=m.f==null?'—':(1000/m.f>=10?(1000/m.f).toFixed(1):(1000/m.f).toFixed(2)).replace('.',',')+' ms';
+    $('fq-meas').innerHTML='<span class="mu-chip">Période <b>'+per+'</b></span><span class="mu-chip">Amplitude <b>'+Math.round(m.amp*100)+' %</b></span><span class="mu-chip">Nature <b>'+(m.silent?'silence':natureOf(m.clarity))+'</b></span>';
+  }
+  function stopMic(){
+    Mic.stop();if(!mic)return;micUI(false);st.nof=false;if(saved){st.f=saved.f;st.db=saved.db}update();$('fq-msg').textContent='';
+  }
+  $('fq-analyze').addEventListener('click',function(){
+    if(mic){stopMic();return}
+    if(st.audio){st.audio=false;Tone.stop();audioBtn(false)}
+    saved={f:st.f,db:st.db};$('fq-msg').textContent='Autorise le micro pour commencer…';
+    Mic.start(onMic).then(function(){micUI(true);$('fq-msg').textContent='J\'écoute. Siffle, chante ou joue un son près du micro. Rien n\'est enregistré.'}).catch(function(e){
+      micUI(false);$('fq-msg').textContent=e&&e.name==='NoMic'?'Le micro n\'est pas disponible ici : ouvre la page en https (par exemple sur GitHub Pages).':
+        e&&e.name==='NotAllowedError'?'Accès au micro refusé : autorise-le dans les réglages du navigateur, puis réessaie.':'Impossible d\'utiliser le micro sur cet appareil.'});
+  });
 
   /* ---------- fenêtres d'aide ---------- */
   function wp(x,y,w,a,n){var d='',N=Math.max(24,Math.round(n*16));for(var i=0;i<=N;i++)d+=(i?'L':'M')+(x+w*i/N).toFixed(1)+' '+(y-a*Math.sin(TWO*n*i/N)).toFixed(1);return d}
@@ -140,7 +168,7 @@ window.Freq=(function(){
   ov.addEventListener('click',function(e){if(e.target===ov)closeHelp()});$('md-x').addEventListener('click',closeHelp);
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeHelp()});
 
-  function stop(){st.run=false;if(st.audio){st.audio=false;Tone.stop();audioBtn(false)}closeHelp()}
-  function start(){size();st.run=true;st.last=performance.now();update();$('fq-play').textContent=st.play?'Pause':'Lecture';requestAnimationFrame(loop)}
+  function stop(){stopMic();st.run=false;if(st.audio){st.audio=false;Tone.stop();audioBtn(false)}closeHelp()}
+  function start(){size();st.run=true;st.last=performance.now();update();requestAnimationFrame(loop)}
   return{start:start,stop:stop};
 })();

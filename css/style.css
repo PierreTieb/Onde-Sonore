@@ -229,3 +229,5 @@ body[data-theme=music]{--bg-top:#0D0704;--bg-bottom:#1C0F06;--glow:radial-gradie
 .mu-song select{min-width:0;min-height:44px;border-radius:12px;background:#0A0F13;color:var(--ink);border:2px solid rgba(255,255,255,.14);font:inherit;font-weight:800;font-size:16px;padding:0 8px;cursor:pointer}
 .mu-song select#mu-song{flex:1}.mu-song select#mu-spd{flex:none;width:112px;padding:0 4px}
 .mu-song .btn-mini{flex:none;width:52px;padding:0;min-height:44px}
+
+.vs--off{opacity:.4;pointer-events:none}
