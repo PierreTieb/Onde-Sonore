@@ -1,6 +1,7 @@
 // Morceaux : notes en lettres + octave (C4 = Do du milieu), durée en temps après « : ». R = silence, @Am = accord.
 // Seules les mélodies du domaine public sont ajoutées ici. Le clavier va de C4 à G5.
-// Drunken Sailor, Le Printemps et la Symphonie n°40 ont été extraites de fichiers MIDI (notes et durées exactes), puis transposées pour tenir sur le clavier.
+// Drunken Sailor, Le Printemps, la Symphonie n°40, Oh! Susanna, Pour Élise, la Marche turque, le Beau Danube bleu, les Walkyries, le Lac des cygnes et le Can-Can
+// ont été extraits de fichiers MIDI (notes et durées exactes), puis transposés pour tenir sur le clavier. « 2001 » a été écrit à la main (3 notes) : à vérifier à l'oreille.
 window.Songs=[
   {g:'Chanson',t:'Au clair de la lune',bpm:96,
    n:'C5:1 C5:1 C5:1 D5:1 | E5:2 D5:2 | C5:1 E5:1 D5:1 D5:1 | C5:4 | C5:1 C5:1 C5:1 D5:1 | E5:2 D5:2 | C5:1 E5:1 D5:1 D5:1 | C5:4 | D5:1 D5:1 D5:1 D5:1 | A4:2 A4:2 | D5:1 C5:1 B4:1 A4:1 | G4:4 | C5:1 C5:1 C5:1 D5:1 | E5:2 D5:2 | C5:1 E5:1 D5:1 D5:1 | C5:4'},
@@ -13,7 +14,23 @@ window.Songs=[
   {g:'Classique',t:'Le Printemps (Vivaldi)',bpm:108,
    n:'G4:0.5 B4:0.5 B4:0.5 B4:0.5 A4:0.25 G4:0.25 D5:1.5 D5:0.25 C5:0.25 B4:0.5 B4:0.5 B4:0.5 A4:0.25 G4:0.25 D5:1.5 D5:0.25 C5:0.25 B4:0.5 C5:0.25 D5:0.25 C5:0.5 B4:0.5 A4:0.5 F#4:0.5 D4:0.5 G4:0.5 B4:0.5 B4:0.5 B4:0.5 A4:0.25 G4:0.25 D5:1.5 D5:0.25 C5:0.25 B4:0.5 B4:0.5 B4:0.5 A4:0.25 G4:0.25 D5:1.5 D5:0.25 C5:0.25 B4:0.5 C5:0.25 D5:0.25 C5:0.5 B4:0.5 A4:1 R:0.5 G4:0.5 D5:0.5 C5:0.25 B4:0.25 C5:0.5 D5:0.5 E5:0.5 D5:1 G4:0.5 D5:0.5 C5:0.25 B4:0.25 C5:0.5 D5:0.5 E5:0.5 D5:1 G4:0.5 E5:0.5 D5:1 C5:0.5 B4:0.5 A4:0.25 G4:0.25 A4:1 G4:1 R:0.5'},
   {g:'Classique',t:'Symphonie n°40 (Mozart)',bpm:160,
-   n:'C5:0.5 B4:0.5 B4:1 C5:0.5 B4:0.5 B4:1 C5:0.5 B4:0.5 B4:1 G5:2 G5:0.5 F#5:0.5 E5:1 E5:0.5 D5:0.5 C5:1 C5:0.5 B4:0.5 A4:1 A4:2 B4:0.5 A4:0.5 A4:1 B4:0.5 A4:0.5 A4:1 B4:0.5 A4:0.5 A4:1 F#5:2 F#5:0.5 E5:0.5 D#5:1 D#5:0.5 C5:0.5 B4:1 B4:0.5 A4:0.5 G4:1 G4:2'}
+   n:'C5:0.5 B4:0.5 B4:1 C5:0.5 B4:0.5 B4:1 C5:0.5 B4:0.5 B4:1 G5:2 G5:0.5 F#5:0.5 E5:1 E5:0.5 D5:0.5 C5:1 C5:0.5 B4:0.5 A4:1 A4:2 B4:0.5 A4:0.5 A4:1 B4:0.5 A4:0.5 A4:1 B4:0.5 A4:0.5 A4:1 F#5:2 F#5:0.5 E5:0.5 D#5:1 D#5:0.5 C5:0.5 B4:1 B4:0.5 A4:0.5 G4:1 G4:2'},
+  {g:'Chanson',t:'Oh! Susanna (Foster)',bpm:120,
+   n:'G4:0.25 A4:0.25 B4:0.5 D5:0.5 D5:0.5 E5:0.5 D5:0.5 B4:0.5 G4:0.75 A4:0.25 B4:0.5 B4:0.5 A4:0.5 G4:0.5 A4:1.5 G4:0.25 A4:0.25 B4:0.5 D5:0.5 D5:0.75 E5:0.25 D5:0.5 B4:0.5 G4:1 B4:0.5 B4:0.5 A4:0.5 A4:0.5 G4:1.5 G4:0.25 A4:0.25 B4:0.5 D5:0.5 D5:0.5 E5:0.5 D5:0.5 B4:0.5 G4:0.75 A4:0.25 B4:0.5 B4:0.5 A4:0.5 G4:0.5 A4:1 R:0.5 G4:0.25 A4:0.25 B4:0.5 D5:0.5 D5:0.5 E5:0.5 D5:0.5 B4:0.5 G4:0.75 A4:0.25 B4:0.5 B4:0.5 A4:0.5 A4:0.5 G4:1 R:1 C5:1 C5:1 E5:0.5 E5:1 E5:0.5 D5:0.5 D5:0.5 B4:0.5 G4:0.5 A4:1.5 G4:0.25 A4:0.25 B4:0.5 D5:0.5 D5:0.5 E5:0.5 D5:0.5 B4:0.5 G4:0.75 A4:0.25 B4:0.5 B4:0.5 A4:0.5 A4:0.5 G4:1'},
+  {g:'Classique',t:'Pour Élise (Beethoven)',bpm:76,
+   n:'E5:0.25 D#5:0.25 E5:0.25 D#5:0.25 E5:0.25 B4:0.25 D5:0.25 C5:0.25 A4:0.5 R:0.25 C4:0.25 E4:0.25 A4:0.25 B4:0.5 R:0.25 E4:0.25 G#4:0.25 B4:0.25 C5:0.5 R:0.25 E4:0.25 E5:0.25 D#5:0.25 E5:0.25 D#5:0.25 E5:0.25 B4:0.25 D5:0.25 C5:0.25 A4:0.5 R:0.25 C4:0.25 E4:0.25 A4:0.25 B4:0.5 R:0.25 E4:0.25 C5:0.25 B4:0.25 A4:1 A4:0.5 R:0.25 B4:0.25 C5:0.25 D5:0.25 E5:0.75 G4:0.25 F5:0.25 E5:0.25 D5:0.75 F4:0.25 E5:0.25 D5:0.25 C5:0.75 E4:0.25 D5:0.25 C5:0.25 B4:0.5 R:0.25'},
+  {g:'Classique',t:'Marche turque (Mozart)',bpm:104,
+   n:'F#4:0.25 E4:0.25 D#4:0.25 E4:0.25 G4:0.5 R:0.5 A4:0.25 G4:0.25 F#4:0.25 G4:0.25 B4:0.5 R:0.5 C5:0.25 B4:0.25 A#4:0.25 B4:0.25 F#5:0.25 E5:0.25 D#5:0.25 E5:0.25 F#5:0.25 E5:0.25 D#5:0.25 E5:0.25 G5:1 E5:0.5 G5:0.5 F#5:0.5 E5:0.5 D5:0.5 E5:0.5 F#5:0.5 E5:0.5 D5:0.5 E5:0.5 F#5:0.5 E5:0.5 D5:0.5 C#5:0.5 B4:1'},
+  {g:'Classique',t:'Le Beau Danube bleu (Strauss)',bpm:126,
+   n:'C4:1 C4:1 E4:1 G4:1 G4:2 G5:1 G5:2 E5:1 E5:2 C4:1 C4:1 E4:1 G4:1 G4:2 G5:1 G5:2 F5:1 F5:2'},
+  {g:'Au cinéma',t:'2001 : Ainsi parlait Zarathoustra (Strauss)',bpm:60,
+   n:'C4:2 G4:2 C5:3 R:1 C4:2 G4:2 C5:3 R:1 C4:2 G4:2 C5:4'},
+  {g:'Au cinéma',t:'La Chevauchée des Walkyries (Wagner)',bpm:120,
+   n:'E4:0.5 A4:0.75 E4:0.25 A4:0.5 C5:1.5 A4:1.5 C5:0.75 A4:0.25 C5:0.5 E5:1.5 C5:1.5 E5:0.75 C5:0.25 E5:0.5 G5:1.5 G4:1.5 C5:0.75 G4:0.25 C5:0.5 E5:6'},
+  {g:'Au cinéma',t:'Le Lac des cygnes (Tchaïkovski)',bpm:88,
+   n:'E5:2 A4:0.5 B4:0.5 C5:0.5 D5:0.5 E5:1.5 C5:0.5 E5:1.5 C5:0.5 E5:1.5 A4:0.5 C5:0.5 A4:0.5 F4:0.5 C5:0.5 A4:2.5 D5:0.5 C5:0.5 B4:0.5 E5:2 A4:0.5 B4:0.5 C5:0.5 D5:0.5 E5:1.5 C5:0.5 E5:1.5 C5:0.5 E5:1.5 A4:0.5 C5:0.5 A4:0.5 F4:0.5 C5:0.5 A4:3'},
+  {g:'Au cinéma',t:'Le Can-Can (Offenbach)',bpm:120,
+   n:'C4:1 C4:1 D4:0.5 F4:0.5 E4:0.5 D4:0.5 G4:1 G4:1 G4:0.5 A4:0.5 E4:0.5 F4:0.5 D4:1 D4:1 D4:0.5 F4:0.5 E4:0.5 D4:0.5 C4:0.5 C5:0.5 B4:0.5 G4:0.5 G4:0.5 F4:0.5 E4:0.5 D4:0.5 C4:1 D4:0.5 F4:0.5 E4:0.5 D4:0.5 G4:1 G4:1 G4:0.5 A4:0.5 E4:0.5 F4:0.5 D4:1 D4:1 D4:0.5 F4:0.5 E4:0.5 D4:0.5 C4:0.5 G4:0.5 D4:0.5 E4:0.5 C4:1 G4:0.5 D4:0.5 D4:0.5 E4:0.5 D4:0.5 C4:0.5 C4:0.5 E4:0.5 F4:0.5 A4:0.5 C5:0.5 A4:0.5 A4:0.5 G4:0.5 G4:1 A4:0.5 D4:0.5 D4:0.5 A4:0.5 G4:0.5 C4:0.5 C4:0.5 E4:0.5 E4:0.5 D4:0.5 E4:0.5 D4:0.5 E4:0.5 D4:0.5 E4:0.5 D4:0.5 E4:0.5 D4:0.5 E4:0.5 D4:0.5 D4:0.5 C4:0.5 C4:0.5 E4:0.5 F4:0.5 A4:0.5 C5:0.5 A4:0.5 A4:0.5 G4:0.5 G4:1'}
 ];
 
 // ---- En réserve (non affichés dans le menu). Pour en remettre un, copier sa ligne dans la liste ci-dessus. ----
