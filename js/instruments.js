@@ -12,13 +12,13 @@ window.Instruments=(function(){
   }
   function additive(P,f,t,dur,a,att,tauFn,hold,mult){var s=P.reduce(function(x,y){return x+y},0);P.forEach(function(p,i){partial(f*(mult?mult[i]:i+1),t,dur,a*p/s*1.6,att,tauFn(i+1),hold)})}
   var V={
-    piano:function(f,t,a,L){additive([1,.55,.3,.16,.08],f,t,Math.max(2.6,L+.1),a,.005,function(h){return 1.1/Math.pow(h,.7)},0)},
+    piano:function(f,t,a,L){additive([1,.55,.3,.16,.08],f,t,L+.1,a,.005,function(h){return 1.1/Math.pow(h,.7)},0)},
     organ:function(f,t,a,L){additive([1,.7,.45,.3],f,t,Math.max(2,L),a*.8,.03,function(){return 1},.25)},
     xylo:function(f,t,a){additive([1,.38,.14],f,t,1.6,a,.002,function(h){return h===1?.45:.2},0,[1,3,6])}
   };
-  // at : instant (horloge audio) du départ ; dur : durée de la note en secondes (sinon note de clavier : fondu en 2 s)
-  function play(inst,freqs,at,dur){
-    if(!unlock())return false;var t0=at!=null?at:AC.currentTime+.03,a=.55/Math.sqrt(freqs.length),end=dur?dur+.3:DUR,fs=dur?dur:DUR-.5;
+  // at : instant (horloge audio) du départ ; dur : durée de la note en secondes (sinon note de clavier : fondu en 2 s) ; vol : volume relatif (1 par défaut)
+  function play(inst,freqs,at,dur,vol){
+    if(!unlock())return false;var t0=at!=null?at:AC.currentTime+.03,a=(vol||1)*.55/Math.sqrt(freqs.length),end=dur?dur+.3:DUR,fs=dur?dur:DUR-.5;
     freqs.forEach(function(f){cur=AC.createGain();cur.gain.setValueAtTime(1,t0);cur.gain.setValueAtTime(1,t0+fs);cur.gain.linearRampToValueAtTime(0,t0+end);cur.connect(master);V[inst](f,t0,a,end)});
     return true;
   }
