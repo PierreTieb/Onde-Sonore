@@ -34,15 +34,15 @@ function createLab(host,o){
   // Matière : air = gaz clairsemé et désordonné qui s'agite ; eau = liquide serré et désordonné ; roche = cristal régulier qui vibre à peine
   var MAT={air:{sp:28,dis:.42,th:.22,w:2.6,r:.12},water:{sp:17,dis:.26,th:.1,w:1.3,r:.24},rock:{sp:16,dis:0,th:.035,w:9,r:.27}};
   function hs(i,j,k){var s=Math.sin(i*127.1+j*311.7+k*74.7)*43758.5453;return s-Math.floor(s)}   // nombre pseudo-aléatoire fixe par molécule
-  function molecules(now,x0,x1,xc,l){
+  function molecules(now,x0,x1,xc,l,rk){
     var W=st.W,H=st.H,m=st.m,ech=st.echo,P=MAT[m],N=NEU[m],t=now/1000,th0=reduce?0:P.th;
     var sp=P.sp*(1-.45*l)*Math.max(.8,Math.min(1.25,W/700)),rh=sp*.87,zt=H*.16,R=Math.floor(H*.62/rh),rad=Math.max(1.4,Math.min(m==='air'?3.4:6,P.r*sp)),dis=P.dis*sp,th=th0*sp;
     var L1=x1-x0,f=st.p*(L1+(ech?x1-xc:0)),front=(ech&&f>L1)?x1-(f-L1):x0+f,   // p=1 : l'onde est exactement au centre du personnage
         sig=Math.max(L1*.06,sp*2.2),lam=sig*1.5,A=Math.min(sp*.45,9),k=6.283/lam,mid=Math.round(L1/sp/2),tr=Math.floor(R/2),tx=0,ty=0,rx=0,B={};
     for(var j=0;j<R;j++){var yb=zt+(j+.5)*rh;
-      for(var i=Math.floor(-x0/sp)-1;i<=(ech?Math.floor(L1/sp):Math.ceil((W-x0)/sp));i++){
+      for(var i=Math.floor(-x0/sp)-1;i<=(ech&&!rk?Math.floor(L1/sp):Math.ceil((W-x0)/sp));i++){
         var xr=x0+(i+(j&1)*.5)*sp+dis*(2*hs(i,j,1)-1),y=yb+dis*(2*hs(i,j,2)-1),u=0,cp=0;
-        if(ech&&xr>x1-rad)continue;
+        if(ech&&(rk?(xr-rk.x)*(xr-rk.x)+(y-rk.y)*(y-rk.y)<(rk.r+rad)*(rk.r+rad):xr>x1-rad))continue;   // pas de molécule dans le rocher (ou le mur)
         var ax=0,ay=0;if(th){var w=P.w*(.6+.8*hs(i,j,3));ax=th*Math.sin(t*w+6.283*hs(i,j,4));ay=th*Math.cos(t*w*.83+6.283*hs(i,j,5))}
         if(st.wave){var z=(xr-front)/sig,e=Math.exp(-z*z),ph=k*(xr-front);u=A*e*Math.sin(ph);cp=Math.max(-1,Math.min(1,-A*e*(-2*z/sig*Math.sin(ph)+k*Math.cos(ph))/.5))}
         if(i===mid&&j===tr){rx=xr;tx=xr+u+ax;ty=y+ay;continue}
@@ -72,8 +72,9 @@ function createLab(host,o){
   function draw(now){
     var W=st.W,H=st.H,m=st.m,ech=st.echo,x0=W*(ech?.3:.13),x1=W*.87,xc=ech?W*.13:x1,cy=H*.66,l=vl(),sc=H/260*(1.15-.4*l);   // xc = centre du personnage (écho : placé avant le pétard)
     c.drawImage(bgc,0,0,W,H);
-    if(m!=='space')molecules(now,x0,x1,xc,l);
-    if(st.echo)wallDraw(x1,W,H,m);
+    var rk=ech&&Sprites.ready('Rocher')?{x:x1+H*.5,y:H*.47,r:H*.5}:null;   // écho : rocher dont le bord gauche est en x1 (là où l'onde se réfléchit)
+    if(m!=='space')molecules(now,x0,x1,xc,l,rk);
+    if(ech&&!(rk&&Sprites.rock(c,rk.x,rk.y,rk.r)))wallDraw(x1,W,H,m);   // mur dessiné si l'image manque
     var ha=now-st.hit,dx=ha>=0&&ha<SHK&&!reduce?3.5*sc*Math.sin(ha*.09)*Math.exp(-ha/220):0,   // vibration à la réception de l'onde
         bob=(m==='water'?-H*.04:0)+((m==='water'||m==='space')&&!reduce?Math.sin(now/650)*3*sc:0);   // plongeur et astronaute flottent
     if(st.state!=='run')Sprites.cracker(c,x0,cy,sc);Sprites.person(c,xc+dx,cy+bob,sc,m,!ech);
